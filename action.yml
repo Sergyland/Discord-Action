@@ -1,13 +1,13 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Discord action'
+description: 'Send a discord message about what has trigered this action.'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  token:  # id of input
+    description: 'Auth token for the bot.'
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+  channel:
+    description: 'The channel ID where the bot will publish messages.'
+    required: true
+
 runs:
   using: 'node12'
   main: 'dist/index.js'
