@@ -21,8 +21,8 @@ client.on('ready', async () => {
     try {
         let message = await botchannel.send(...context)
         console.log("Sent message ",message)
-        message = await message.react('\:white_check_mark:')
-        console.log("Reacted to message! ",message)
+        //message = await message.react('\:white_check_mark:')
+        //console.log("Reacted to message! ",message)
     } catch(e) {
         console.error("An error occured during message sending.")
     }
