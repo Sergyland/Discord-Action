@@ -9,21 +9,28 @@ const core = __nccwpck_require__(2186);
 const Discord = __nccwpck_require__(5973);
 
 const client = new Discord.Client();
+var botchannel;
+
+client.on('ready', async () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+  /* TODO : Add bot activity
+
+  */
+    try {
+        botchannel = await client.channels.fetch(core.getInput("channel"))
+    } catch(e) {
+        console.error("An error occured during channel access atempt.",e)
+    }
+    console.log("Connected to channel!");
+    try {
+        botchannel.send("Sent from github!")
+    } catch(e) {
+        console.error("An error occured during message sending.")
+    }
+    process.exit(0)
+});
+
 client.login(core.getInput("token"))
-
-// most @actions toolkit packages have async methods
-async function run() {
-  try {
-    const botchannel = await client.channels.fetch(core.getInput("channel"));
-    botchannel.send("Sent from github!");
-  } catch (error) {
-    core.setFailed(error.message);
-    process.exit(1)
-  }
-}
-
-run();
-
 
 /***/ }),
 
