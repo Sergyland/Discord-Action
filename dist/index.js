@@ -26,7 +26,18 @@ client.on('ready', async () => {
     }
     console.log("Connected to channel!");
     try {
-        let message = await botchannel.send(...context)
+        let message = await botchannel.send(
+            context.action + 
+            context.actor +
+            context.eventName +
+            context.issue +
+            context.job +
+            context.payload +
+            context.repo +
+            context.runId +
+            context.runNumber +
+            context.workflow +
+            context.sha);
         console.log("Sent message ",message)
         //message = await message.react('\:white_check_mark:')
         //console.log("Reacted to message! ",message)
