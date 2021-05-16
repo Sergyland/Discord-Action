@@ -4,7 +4,6 @@ inputs:
   githubToken:
     description: 'Your github token with repo access'
     required: true
-    default: ${{ secrets.GITHUB_TOKEN }}
   discordToken:
     description: 'Your discord bot access token'
     required: true
