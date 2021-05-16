@@ -9,7 +9,7 @@ const core = __nccwpck_require__(2186);
 const Discord = __nccwpck_require__(5973);
 
 const channelId = core.getInput("channel");
-const token = core.getInput("channel");
+const token = core.getInput("token") || process.env.DISCORDTOKEN;
 
 const client = new Discord.Client();
 client.login(token);

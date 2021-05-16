@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const Discord = require("discord.js");
 
 const channelId = core.getInput("channel");
-const token = core.getInput("channel");
+const token = core.getInput("token") || process.env.DISCORDTOKEN;
 
 const client = new Discord.Client();
 client.login(token);
