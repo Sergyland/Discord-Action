@@ -2,7 +2,6 @@ const core = require('@actions/core');
 const Discord = require("discord.js");
 
 const client = new Discord.Client();
-client.login(core.getInput("token"))
 var botchannel;
 
 client.on('ready', async () => {
@@ -23,3 +22,5 @@ client.on('ready', async () => {
     }
     process.exit(0)
 });
+
+client.login(core.getInput("token"))
