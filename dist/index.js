@@ -37549,7 +37549,7 @@ const client = new Discord.Client();
 var botchannel;
 
 const context = github.context;
-const octokit = github.getOctokit(core.getInput('myToken'));
+const octokit = github.getOctokit(core.getInput('githubToken'));
 
 client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}!`);
