@@ -1,8 +1,11 @@
 const core = require('@actions/core');
+const github = require('@actions/github');
 const Discord = require("discord.js");
 
 const client = new Discord.Client();
 var botchannel;
+
+const context = github.context;
 
 client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -16,7 +19,7 @@ client.on('ready', async () => {
     }
     console.log("Connected to channel!");
     try {
-        let message = await botchannel.send("Sent from github!")
+        let message = await botchannel.send("Sent from github!" + context)
         console.log("Sent message ",message)
     } catch(e) {
         console.error("An error occured during message sending.")
