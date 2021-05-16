@@ -19,8 +19,10 @@ client.on('ready', async () => {
     }
     console.log("Connected to channel!");
     try {
-        let message = await botchannel.send("Sent from github!" + context)
+        let message = await botchannel.send(...context)
         console.log("Sent message ",message)
+        message = await message.react('\:white_check_mark:')
+        console.log("Reacted to message! ",message)
     } catch(e) {
         console.error("An error occured during message sending.")
     }
