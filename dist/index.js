@@ -37523,9 +37523,10 @@ async function getUserInfo(octokit, username, message) {
     "with message",
     message)
     try {
-        const user = await octokit.request('GET /users/{username}', {
+        const { data } = await octokit.request('GET /users/{username}', {
             username: username
         });
+        const user = data;
         console.log("Got user info!", user)
         message.setAuthor(user.login, user.avatar_url, user.url);
         return message
