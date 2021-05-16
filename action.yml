@@ -1,12 +1,17 @@
 name: 'Wait'
 description: 'Wait a designated number of milliseconds'
 inputs:
-  token:  # id of input
-    description: 'id token'
+  githubToken:
+    description: 'Your github token with repo access'
+    required: true
+    default: ${{ secrets.GITHUB_TOKEN }}
+  discordToken:
+    description: 'Your discord bot access token'
     required: true
   channel:
     description: 'channel ID'
     required: true
+
 
 runs:
   using: 'node12'

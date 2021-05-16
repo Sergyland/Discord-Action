@@ -2,55 +2,6 @@ require('./sourcemap-register.js');module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 2932:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const core = __nccwpck_require__(2186);
-const github = __nccwpck_require__(5438);
-const Discord = __nccwpck_require__(5973);
-
-const client = new Discord.Client();
-var botchannel;
-
-const context = github.context;
-
-client.on('ready', async () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-  /* TODO : Add bot activity
-
-  */
-    try {
-        botchannel = await client.channels.fetch(core.getInput("channel"))
-    } catch(e) {
-        console.error("An error occured during channel access atempt.",e)
-    }
-    console.log("Connected to channel!");
-    try {
-        let message = await botchannel.send(
-            context.action + 
-            context.actor +
-            context.eventName +
-            context.issue +
-            context.job +
-            context.payload +
-            context.repo +
-            context.runId +
-            context.runNumber +
-            context.workflow +
-            context.sha);
-        console.log("Sent message ",message)
-        //message = await message.react('\:white_check_mark:')
-        //console.log("Reacted to message! ",message)
-    } catch(e) {
-        console.error("An error occured during message sending.")
-    }
-    process.exit(0)
-});
-
-client.login(core.getInput("token"))
-
-/***/ }),
-
 /***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -37563,6 +37514,74 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 5812:
+/***/ ((module) => {
+
+async function getUserInfo(octokit) {
+    try {
+        const user = await octokit.rest.users.getAuthenticated();
+        return {
+            name : user.login,
+            iconURL : user.avatar_url,
+            url : user.url,
+        }
+
+        } catch(e) {
+        console.error("An error occured during this github user data fetching ",
+        e)
+        return
+    }
+}
+
+module.exports = getUserInfo;
+
+/***/ }),
+
+/***/ 4351:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(2186);
+const github = __nccwpck_require__(5438);
+const Discord = __nccwpck_require__(5973);
+const getUserInfo = __nccwpck_require__(5812);
+
+const client = new Discord.Client();
+var botchannel;
+
+const context = github.context;
+const octokit = github.getOctokit(core.getInput('myToken'));
+
+client.on('ready', async () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+  /* TODO : Add bot activity
+
+  */
+    try {
+        botchannel = await client.channels.fetch(core.getInput("channel"))
+    } catch(e) {
+        console.error("An error occured during channel access atempt.",e)
+    }
+    console.log("Connected to channel!");
+    const payload = context.payload;
+    try {
+        const embedMessage = new Discord.MessageEmbed()
+            .setTitle('New action occured!')
+            .setAuthor(await getUserInfo(octokit))
+            .addField('Is this bot ready?', 'Absolutly not!', true);
+        let message = await botchannel.send(embedMessage);
+        console.log("Sent message ",message)
+        //message = await message.react('\:white_check_mark:')
+        //console.log("Reacted to message! ",message)
+    } catch(e) {
+        console.error("An error occured during message sending.")
+    }
+    process.exit(0)
+});
+
+client.login(core.getInput("discordToken"))
+
+/***/ }),
+
 /***/ 1269:
 /***/ ((module) => {
 
@@ -37801,7 +37820,7 @@ module.exports = require("zlib");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(2932);
+/******/ 	return __nccwpck_require__(4351);
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

@@ -18,4 +18,5 @@ jobs:
       - uses: Sergyland/discord-action@main
         with: 
           channel: ${{ secrets.ChannelID }}
-          token: ${{secrets.DiscordToken}}
+          discordToken: ${{secrets.DiscordToken}}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}

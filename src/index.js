@@ -1,11 +1,13 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const Discord = require("discord.js");
+const getUserInfo = require("./github/getuserinfo");
 
 const client = new Discord.Client();
 var botchannel;
 
 const context = github.context;
+const octokit = github.getOctokit(core.getInput('myToken'));
 
 client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -18,19 +20,13 @@ client.on('ready', async () => {
         console.error("An error occured during channel access atempt.",e)
     }
     console.log("Connected to channel!");
+    const payload = context.payload;
     try {
-        let message = await botchannel.send(
-            context.action + 
-            context.actor +
-            context.eventName +
-            context.issue +
-            context.job +
-            context.payload +
-            context.repo +
-            context.runId +
-            context.runNumber +
-            context.workflow +
-            context.sha);
+        const embedMessage = new Discord.MessageEmbed()
+            .setTitle('New action occured!')
+            .setAuthor(await getUserInfo(octokit))
+            .addField('Is this bot ready?', 'Absolutly not!', true);
+        let message = await botchannel.send(embedMessage);
         console.log("Sent message ",message)
         //message = await message.react('\:white_check_mark:')
         //console.log("Reacted to message! ",message)
@@ -40,4 +36,4 @@ client.on('ready', async () => {
     process.exit(0)
 });
 
-client.login(core.getInput("token"))
+client.login(core.getInput("discordToken"))
