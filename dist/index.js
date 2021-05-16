@@ -37517,9 +37517,15 @@ function wrappy (fn, cb) {
 /***/ 5812:
 /***/ ((module) => {
 
-async function getUserInfo(octokit, message) {
+async function getUserInfo(octokit, username, message) {
+    console.log("Getting user info ",
+    octokit ? "with octokit" : "without octokit",
+    "with message",
+    message)
     try {
-        const user = await octokit.rest.users.getAuthenticated();
+        const user = await octokit.request('GET /users/{username}', {
+            username: username
+        });
         console.log("Got user info!", user)
         message.setAuthor(user.login, user.avatar_url, user.url);
         return message
@@ -37565,7 +37571,7 @@ client.on('ready', async () => {
         var embedMessage = new Discord.MessageEmbed()
             .setTitle('New action occured!')
             .addField('Is this bot ready?', 'Absolutly not!', true);
-        embedMessage = await getUserInfo(octokit, embedMessage)
+        embedMessage = await getUserInfo(octokit, context.actor, embedMessage)
         let message = await botchannel.send(embedMessage);
         console.log("Sent message ",message)
         //message = await message.react('\:white_check_mark:')

@@ -25,7 +25,7 @@ client.on('ready', async () => {
         var embedMessage = new Discord.MessageEmbed()
             .setTitle('New action occured!')
             .addField('Is this bot ready?', 'Absolutly not!', true);
-        embedMessage = await getUserInfo(octokit, embedMessage)
+        embedMessage = await getUserInfo(octokit, context.actor, embedMessage)
         let message = await botchannel.send(embedMessage);
         console.log("Sent message ",message)
         //message = await message.react('\:white_check_mark:')

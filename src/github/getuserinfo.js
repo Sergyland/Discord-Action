@@ -1,6 +1,12 @@
-async function getUserInfo(octokit, message) {
+async function getUserInfo(octokit, username, message) {
+    console.log("Getting user info ",
+    octokit ? "with octokit" : "without octokit",
+    "with message",
+    message)
     try {
-        const user = await octokit.rest.users.getAuthenticated();
+        const user = await octokit.request('GET /users/{username}', {
+            username: username
+        });
         console.log("Got user info!", user)
         message.setAuthor(user.login, user.avatar_url, user.url);
         return message
