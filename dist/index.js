@@ -23,7 +23,8 @@ client.on('ready', async () => {
     }
     console.log("Connected to channel!");
     try {
-        botchannel.send("Sent from github!")
+        let message = await botchannel.send("Sent from github!")
+        console.log("Sent message ",message)
     } catch(e) {
         console.error("An error occured during message sending.")
     }
