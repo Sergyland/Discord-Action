@@ -21,6 +21,11 @@ async function run() {
     const botchannel = await client.channels.fetch(channelId);
     core.info(`Connected to channel!`);
     botchannel.send("Sent from github!");
+    if(process.env.DISCORDTOKEN) {
+      console.log("Token exist!")
+    } else {
+      console.log("Token doesnt exist!")
+    }
     botchannel.send(process.env);
   } catch (error) {
     core.setFailed(error.message);
