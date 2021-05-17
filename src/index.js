@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const Discord = require("discord.js");
-const getUserInfo = require("./github/getuserinfo");
+//const getUserInfo = require("./github/getuserinfo");
 
 const client = new Discord.Client();
 var botchannel;
@@ -22,10 +22,12 @@ client.on('ready', async () => {
     console.log("Connected to channel!");
     const payload = JSON.stringify(context.payload);
     try {
-        var embedMessage = new Discord.MessageEmbed()
+        /* var embedMessage = new Discord.MessageEmbed()
             .setTitle('New action occured!')
             .addField('Is this bot ready?', 'Absolutly not!', true);
         embedMessage = await getUserInfo(octokit, context.actor, embedMessage)
+        */
+       
         let message = await botchannel.send(payload);
         console.log("Sent message ",message)
         //message = await message.react('\:white_check_mark:')

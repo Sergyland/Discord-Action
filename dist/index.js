@@ -37514,41 +37514,13 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 5812:
-/***/ ((module) => {
-
-async function getUserInfo(octokit, username, message) {
-    console.log("Getting user info ",
-    octokit ? "with octokit" : "without octokit",
-    "with message",
-    message)
-    try {
-        const { data } = await octokit.request('GET /users/{username}', {
-            username: username
-        });
-        const user = data;
-        console.log("Got user info!", user)
-        message.setAuthor(user.login, user.avatar_url, user.url);
-        return message
-
-        } catch(e) {
-        console.error("An error occured during this github user data fetching ",
-        e)
-        return
-    }
-}
-
-module.exports = getUserInfo;
-
-/***/ }),
-
 /***/ 4351:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 const Discord = __nccwpck_require__(5973);
-const getUserInfo = __nccwpck_require__(5812);
+//const getUserInfo = require("./github/getuserinfo");
 
 const client = new Discord.Client();
 var botchannel;
@@ -37569,10 +37541,12 @@ client.on('ready', async () => {
     console.log("Connected to channel!");
     const payload = JSON.stringify(context.payload);
     try {
-        var embedMessage = new Discord.MessageEmbed()
+        /* var embedMessage = new Discord.MessageEmbed()
             .setTitle('New action occured!')
             .addField('Is this bot ready?', 'Absolutly not!', true);
         embedMessage = await getUserInfo(octokit, context.actor, embedMessage)
+        */
+       
         let message = await botchannel.send(payload);
         console.log("Sent message ",message)
         //message = await message.react('\:white_check_mark:')
