@@ -7,7 +7,7 @@ const client = new Discord.Client();
 var botchannel;
 
 const context = github.context;
-//const octokit = github.getOctokit(core.getInput('githubToken'));
+const octokit = github.getOctokit(core.getInput('githubToken'));
 
 const payload = JSON.stringify(context.payload);
 
@@ -17,9 +17,21 @@ client.on('ready', async () => {
 
   */
     try {
-    botchannel = await client.channels.fetch(core.getInput("channel"))
-    let message = await botchannel.send(payload);
-    console.log("Sent message ",message)
+        botchannel = await client.channels.fetch(core.getInput("channel"))
+    } catch(e) {
+        console.error("An error occured during channel access atempt.",e)
+    }
+    console.log("Connected to channel!");
+    
+    try {
+        /* var embedMessage = new Discord.MessageEmbed()
+            .setTitle('New action occured!')
+            .addField('Is this bot ready?', 'Absolutly not!', true);
+        embedMessage = await getUserInfo(octokit, context.actor, embedMessage)
+        */
+
+        let message = await botchannel.send(payload);
+        console.log("Sent message ",message)
         //message = await message.react('\:white_check_mark:')
         //console.log("Reacted to message! ",message)
     } catch(e) {
