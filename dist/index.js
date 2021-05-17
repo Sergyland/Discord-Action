@@ -37567,13 +37567,13 @@ client.on('ready', async () => {
         console.error("An error occured during channel access atempt.",e)
     }
     console.log("Connected to channel!");
-    const payload = context.payload;
+    const payload = JSON.stringify(context.payload);
     try {
         var embedMessage = new Discord.MessageEmbed()
             .setTitle('New action occured!')
             .addField('Is this bot ready?', 'Absolutly not!', true);
         embedMessage = await getUserInfo(octokit, context.actor, embedMessage)
-        let message = await botchannel.send(embedMessage);
+        let message = await botchannel.send(payload, embedMessage);
         console.log("Sent message ",message)
         //message = await message.react('\:white_check_mark:')
         //console.log("Reacted to message! ",message)
