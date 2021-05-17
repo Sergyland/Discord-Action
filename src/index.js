@@ -4,7 +4,6 @@ const Discord = require("discord.js");
 //const getUserInfo = require("./github/getuserinfo");
 
 const client = new Discord.Client();
-var botchannel;
 
 const context = github.context;
 //const octokit = github.getOctokit(core.getInput('githubToken'));
@@ -12,16 +11,16 @@ const context = github.context;
 const payload = JSON.stringify(context.payload);
 
 client.on('ready', async () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+    console.log("Payload", payload)
+    console.log(`Logged in as ${client.user.tag}!`);
   /* TODO : Add bot activity
 
   */
     try {
-    botchannel = await client.channels.fetch(core.getInput("channel"))
-    let message = await botchannel.send(payload);
-    console.log("Sent message ",message)
-        //message = await message.react('\:white_check_mark:')
-        //console.log("Reacted to message! ",message)
+        console.log("Starting to fetch channel")
+        client.channels.fetch(core.getInput("channel"))
+        .then((channel) => channel.send(payload))
+        .then(() => console.log("Message sent")) 
     } catch(e) {
         console.error("An error occured during message sending.")
     }
